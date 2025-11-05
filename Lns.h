@@ -416,14 +416,10 @@ float main_lns(std::vector<Bin>& sol,
 
     std::vector<int> R;
 
-    // SET TIME VARIABLES
-
-    auto start_time = std::chrono::high_resolution_clock::now();
-
     // SET ITERATION COUNTER 
 
     int iter = 0;
-    int best_iter = -1;
+    int max_iter = 1000;
 
     while (true) {
         // UPDATE ITERATION COUNTER 
@@ -438,14 +434,6 @@ float main_lns(std::vector<Bin>& sol,
 
         curr_of = apply_insertion_heuristic(curr_sol, inst, R, gen);
 
-        // LOCAL SEARCH
-
-        //double prob = random_double(0, 1, gen);
-
-        //if (prob <= 0.5) {
-            //curr_of = main_vnd(curr_sol, inst, curr_of);
-        //}
-
         // SOLUTION ACCEPTANCE
 
         float delta = curr_of - inc_of;
@@ -456,7 +444,6 @@ float main_lns(std::vector<Bin>& sol,
             if (curr_of < best_of) {
                 best_of = curr_of;
                 best_sol = curr_sol;
-                best_iter = iter;
             }
         }
         else {
@@ -470,22 +457,14 @@ float main_lns(std::vector<Bin>& sol,
             }
         }
 
-        // UPDATE TIME LEFT
-
-        auto current_time = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = current_time - start_time;
-
-        if (elapsed.count() >= time_limit_seconds) {
+        if (iter == max_iter) {
             break;
         }
 
         // UPDATE TEMPERATURE 
 
-        T = T_init * (1 - elapsed.count() / time_limit_seconds);
+        T = T_init * (1 - iter / max_iter);
     }
-
-    std::cout << "Number of iterations: " << iter << std::endl;
-    std::cout << "Best iteration: " << best_iter << std::endl;
 
     return best_of;
 }

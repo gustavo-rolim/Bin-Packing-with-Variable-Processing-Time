@@ -7,25 +7,31 @@
 
 // Include auxiliary header files
 
-#include "Arc_flow.h"
 #include "Data.h"
 #include "Heu.h"
 #include "Io.h"
 #include "Lns.h"
-#include "Lns_reactive.h"
 #include "Svc.h"
 #include "Vnd.h"
 
 int main(int argc,
 	char* argv[]) {
+	// ======================
+	// 1. COMMAND LINE VALIDATION
+	// ======================
+
+	if (argc != 4) {
+		std::cerr << "Please, use the following format:\n<executable_file> <instance_file> <parameter_file> <solution_method>" << std::endl;
+		return EXIT_FAILURE;
+	}
 
 	// ======================
     // 2. INITIALIZATION
     // ======================
 
-	const std::string instance_path = "HBPP_20015009_02720.C.txt"; //HBPP_20015009_02720.C.txt BPP_new_20_50_1.C.txt
-	const std::string param_path = "p.txt";
-	const std::string method = "lns";
+	const std::string instance_path = argv[1];
+	const std::string param_path = argv[2];
+	const std::string method = argv[3];
 	ProblemInstance inst;
 
 	try {
@@ -64,31 +70,25 @@ int main(int argc,
 		of = main_constructive(sol, inst);
 		of = main_vnd(sol, inst, of);
 	}
+	else if (method == "lns") {
+		of = main_constructive(sol, inst);
+		of = main_vnd(sol, inst, of);
+		of = main_lns(sol, inst, of, gen);
+	}
 	else if (method == "svc") {
 		of = main_svc(sol, inst, gen);
 	}
-	else if (method == "lns") {
-		of = main_constructive(sol, inst);
-		std::cout << "Current objective: " << of << std::endl;
+	else if (method == "svc_vnd") {
+		of = main_svc(sol, inst, gen);
 		of = main_vnd(sol, inst, of);
-		std::cout << "Current objective: " << of << std::endl;
-		of = main_lns(sol, inst, of, gen);
-		std::cout << "Current objective: " << of << std::endl;
-	}
-	else if (method == "lns_reactive") {
-		of = main_constructive(sol, inst);
-		of = main_vnd(sol, inst, of);
-		of = main_lns_reactive(sol, inst, of, gen);
-	}
-	else if (method == "arc_flow") {
-		of = main_arc_flow(sol, inst);
-		std::cout << "Current objective: " << of << std::endl;
-		of = main_vnd(sol, inst, of);
-		std::cout << "Current objective: " << of << std::endl;
-		of = main_lns(sol, inst, of, gen);
-		std::cout << "Current objective: " << of << std::endl;
 	}
 
 	auto end_time = std::chrono::high_resolution_clock::now(); 
 	double running_time = std::chrono::duration<double>(end_time - start_time).count();
+
+	// ======================
+	// 5. WRITE RESULTS
+	// ======================
+
+	write_results(inst, sol, running_time, instance_path, of);
 }

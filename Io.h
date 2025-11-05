@@ -83,4 +83,48 @@ void read_problem_instance(const std::string& filename,
     file.close();
 }
 
+void write_results(const ProblemInstance& inst,
+    const std::vector<Bin>& sol,
+    const double& running_time,
+    const std::string& instance_path,
+    const float& of,
+    const std::string& filename = "Results.txt") {
+
+    std::ofstream out_file;
+    bool file_exists = std::ifstream(filename).good();
+
+    // Open in append mode if file exists, otherwise create new one
+
+    out_file.open(filename, std::ios_base::app);
+
+    if (!file_exists) {
+        // Write header with instance details
+
+        out_file << "***************************************** BIN PACKING SOLUTION *****************************************" << "\n";
+        out_file << "Parameters: alpha_1=" << inst.w1 << " alpha_2=" << inst.w2
+            << " t=" << inst.t << " s=" << inst.s << "\n";
+        out_file << "-------------------------------------------------------------------------------------------------------------------------------------------------\n";
+        out_file << "INSTANCE \t # OF BINS \t SCHEDULING OBJECTIVE \t BEST OBJECTIVE \t RUNNING TIME\n";
+        out_file << "-------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    }
+
+    // Extract only the instance name from the path 
+
+    std::filesystem::path p(instance_path);
+    std::string instance_name = p.stem().string();
+
+    // Extract each objective individually 
+
+    int n_bins = sol.size(); // Number of bins 
+    double sch = (of - inst.w1 * n_bins) / inst.w2; // Scheduling objective
+
+    // Write solution data
+
+    out_file << instance_name << "\t"
+        << n_bins << "\t"
+        << std::fixed << std::setprecision(3) << sch << "\t"
+        << of << "\t"
+        << running_time << "\n";
+}
+
 #endif
