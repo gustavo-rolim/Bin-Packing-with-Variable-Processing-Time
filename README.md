@@ -42,8 +42,10 @@ Where:
 ### Required file format: 
 * `p.txt` requires the following format:
 * w1: Weight associated with the number of bins.
-* w2: Weight associated with Maximum tardiness. 
+* w2: Weight associated with Maximum tardiness.
+*  t: Processing time.
+*  s: Setup time. 
 
 ### Benchmark instances: 
-* The istances are expected to be in this [format]([https://jump.dev/JuMP.jl/stable/](https://github.com/AndreaPizzuti/One-dimensional-bin-packing-with-pattern-dependent-processing-time/tree/main/INSTANCES)
-* This is the standard adopted in Marinelli, [F., Pizzuti, A., Wu, W., Yagiura, M., 2025. One-dimensional bin packing with pattern-dependent processing time. European Journal of Operational Research 322, 3, 770–782.](https://www.sciencedirect.com/science/article/pii/S0377221724008920)
+* The istances are expected to be in this [format](https://github.com/AndreaPizzuti/One-dimensional-bin-packing-with-pattern-dependent-processing-time/tree/main/INSTANCES)
+* This is the standard adopted in [Marinelli, F., Pizzuti, A., Wu, W., Yagiura, M., 2025. One-dimensional bin packing with pattern-dependent processing time. European Journal of Operational Research 322, 3, 770–782.](https://www.sciencedirect.com/science/article/pii/S0377221724008920)
