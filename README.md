@@ -38,8 +38,11 @@ Where:
 * `<instance_file>`: Path to a problem instance.
 * `<parameter_file>`: Path to the `p.txt` file.
 * `<method>`: {heu, lns, svc, svc_vnd}.
+---
 
-### Required file format: 
+## 3. Required parameter and instance file format: 
+
+### Parameter file
 * `p.txt` requires the following format:
 * w1: Weight associated with the number of bins.
 * w2: Weight associated with Maximum tardiness.
