@@ -2,9 +2,9 @@
 
 This repository contains the source code for the heuristics for the 1BP-VPT.
 
-## 2. Repository Content
+## 1. Repository Content
 
-The solver is written in C++ and implements the following algorithms: a Constructive Procedure, **Variable Neighborhood Descent (VND)**, **Large Neighborhood Search (LNS)**, and **Sequential Value Correction (SVC)**.
+The solver is written in C++ and implements the following algorithms: a **Constructive Procedure**, **Variable Neighborhood Descent (VND)**, **Large Neighborhood Search (LNS)**, and **Sequential Value Correction (SVC)**.
 
 | File | Description |
 | :--- | :--- |
@@ -24,7 +24,17 @@ The solver is written in C++ and implements the following algorithms: a Construc
 * `Summary_02_08.xlsx`: Tabulated computational results over the benchmark instances.
 ---
 
-## 3. Usage
+## 2. Usage
 
 ### Dependencies
-The code is written in **C++** and requires a **C++20 compliant compiler**
+* The code is written in **C++** and requires a **C++20 compiler**
+
+### Running the solver
+* To run the solver on Windows: 
+```bash
+Solver.exe <instance_file> <parameter_file> <method>
+```
+Where: 
+* `<instance_file>`: Path to a problem instance.
+* `<parameter_file>`: Path to the `p.txt` file.
+* `<method>`: {heu, lns, svc, svc_vnd}.
